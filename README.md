@@ -5,7 +5,7 @@ Smack is a tiny (614 bytes minified) templating plugin for [jQuery](http://jquer
 
 ## Documentation
 
-Smack binds values form a context object to the template by looking for `data-bind` attributes on elements. It can bind to an attribute or to the text content of the element, attributes are created if not defined in the template.
+Smack binds values from a context object to the template by looking for `data-bind` attributes on elements. It can bind to an attribute or to the text content of the element, attributes are created if not defined in the template.
 
 The following demonstrates loading a template and applying data bindings. Note that `element` here is modified and data bindings are applied.
 
@@ -48,7 +48,9 @@ The examples below use the following context
 ```javascript
 {
   blogUrl: "http://www.example.com",
-  author: "Bob Bobson",
+  author: {
+    name: "Bob Bobson"
+  },
   category: "Javascript"
   title: "Hello world", 
   date: "2014-01-01", 
@@ -72,6 +74,26 @@ Simple binding replaces content of the template element by the specified value, 
 result:
 ```html
 <h1>Hello world</h1>
+```
+
+Values can be specified at any depth by separating members with `.` (fullstops).
+
+```html
+<p data-bind="author.name"></p>
+```
+result:
+```
+<p>Bob Bobson</p>
+```
+
+Member specifications also support fallbacks with the `|` (bar) character.
+
+```html
+<p data-bind="author.nick|name"></p>
+```
+result:
+```html
+<p>Bob Bobson</p>
 ```
 
 ### Raw HTML binding to element content
@@ -116,7 +138,7 @@ Both escaped and unescaped binding to element content, and attribute binding sup
 ```html
 <p>
   <span data-bind="!'in <em>{category}</em>, '"></span>
-  <span data-bind="'by {author}.'"></span>.
+  <span data-bind="'by {author.name}.'"></span>.
 </p>
 ```
 results:
