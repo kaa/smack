@@ -8,7 +8,7 @@
 				var e = $(this),
 					match,
 					bindings = e.attr("data-bind"),
-					re = /(^|,)\s*((\w+):)?\s*(\!|\#|\?)?('([^']*)'|([^,]+))/g;
+					re = /(^|,)\s*((\w+):)?\s*(\!|\#|\?)?('([^']*)'|([^,\|]+(?:\|[^,\|]+)*))/g;
 
 				// Remove binding directives from element
 				e.attr("data-bind", null);
@@ -20,7 +20,7 @@
 					if(match[7]) {						// Simple value
 						value = valueOf(match[7], context);
 					} else {									// String interpolation '{' MEMBER '}'
-						value = match[6].replace(/\{([^\}]*)\}/g, function(_, key) {
+						value = match[6].replace(/\{([^\}\|]+(?:\|[^\}\|]+)*)\}/g, function(_, key) {
 							return valueOf(key, context);
 						});
 					}
@@ -51,8 +51,11 @@
 	};
 	function valueOf(key, val) {
 		for(key = key.split('.') ; key.length > 0 && key[0] !== ""; key.shift()) {
-			if(val === undefined) break;
-			val = val[key[0]];
+			if(val === undefined) return;
+			var fallback = key[0].split('|')
+			for(; fallback.length>0 && val[fallback[0]]===undefined; )
+				fallback.shift();
+			val = val[fallback[0]];			
 		}
 		return val;
 	}

@@ -12,7 +12,7 @@
 		<p>
 			Published <abbr data-bind="friendlyDate,title:date"></abbr>
 			<span data-bind="in {category}, "></span>
-			<span data-bind="!'by <strong>{author}</strong>.'"></span>.
+			<span data-bind="!'by <strong>{authorNick|authorName}</strong>.'"></span>
 		</p>
 		<ul>
 			<li data-bind="#tags"><a data-bind=".,href:'?tag={.}'"></a></li>
@@ -32,7 +32,7 @@
 		var element = $($("#template").html()).smack({
 			admin: false,
 			blogUrl: "http://example.com",
-			author: "Bob Bobson",
+			authorName: "Bob Bobson",
 			category: "javascript",
 			title: "Hello world", 
 			date: "2014-01-01",
