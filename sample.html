@@ -7,6 +7,7 @@
 </head>
 <body>
 	<script type="text/template" id="template">
+		<div>
 		<a data-bind="href: blogUrl">Home</a> 
 		<h1 data-bind="title"></h1>
 		<p>
@@ -18,6 +19,7 @@
 			<li data-bind="#tags"><a data-bind=".,href:'?tag={.}'"></a></li>
 		</ul>
 		<p data-bind="?admin"><a href="#">Edit</a></p>
+		<p data-bind="?!admin"><a href="#">Report</a></p>
 		<div data-bind="!content"></div>
 		<h3 data-bind="'Comments ({comments.length})'"></h3>
 		<ul>
@@ -27,23 +29,26 @@
 				<p data-bind="?likes.length">Liked by <em data-bind="#likes,'{.} '"></em></p>
 			</li>
 		</ul>
+		</div>
 	</script>
 	<script type="text/javascript">
-		var element = $($("#template").html()).smack({
-			admin: false,
-			blogUrl: "http://example.com",
-			authorName: "Bob Bobson",
-			category: "javascript",
-			title: "Hello world", 
-			date: "2014-01-01",
-			friendlyDate: "Yesterday",
-			tags: ["tiny","template","jquery"], 
-			content: "<p>This is a simple <strong>smack</strong> template.</p>",
-			comments: [
-				{author: "bob", text: "Great stuff!", likes: ["Cecil", "Mallory"]},
-				{author: "alice", text: "Indeed!", likes: []}
-			]
-		}).appendTo(document.body);
+		var element = $($("#template").html())
+			.smack({
+				admin: false,
+				blogUrl: "http://example.com",
+				authorName: "Bob Bobson",
+				category: "javascript",
+				title: "Hello world", 
+				date: "2014-01-01",
+				friendlyDate: "Yesterday",
+				tags: ["tiny","template","jquery"], 
+				content: "<p>This is a simple <strong>smack</strong> template.</p>",
+				comments: [
+					{author: "bob", text: "Great stuff!", likes: ["Cecil", "Mallory"]},
+					{author: "alice", text: "Indeed!", likes: []}
+				]
+			});
+		element.appendTo(document.body);
 	</script>
 </body>
 </html>

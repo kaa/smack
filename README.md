@@ -21,6 +21,7 @@ The following demonstrates loading a template and applying data bindings. Note t
   <li data-bind="#tags"><a data-bind=".,href:'?tag={.}'"></a></li>
 </ul>
 <p data-bind="?admin"><a href="#">Edit</a></p>
+<p data-bind="?!admin"><a href="#">Report</a></p>
 <div data-bind="!content"></div>
 <h3 data-bind="'Comments ({comments.length})'"></h3>
 <ul>
@@ -153,8 +154,11 @@ results:
 
 Elements can be excluded or inluded depending on the [truthyness](http://docs.nodejitsu.com/articles/javascript-conventions/what-are-truthy-and-falsy-values) of the value specified by a context specifier. Simply add a `?` before the path specification to test the truthyness of a value.
 
+Sometimes it is necessary to reverse the conditional in the template, to do this use `?!` to include an element only if the value is falsy.
+
 ```html
 <p><a data-bind="?admin" href="#">Edit</a></p>
+<p><a data-bind="?!admin" href="#">Report</a></p>
 ```
 yields the following when `admin` is truthy,
 ```html
@@ -162,7 +166,7 @@ yields the following when `admin` is truthy,
 ```
 and the following when falsy.
 ```html
-<p></p>
+<p><a href="#">Report</a></p>
 ```
 
 ### Collection iteration

@@ -8,7 +8,7 @@
 				var e = $(this),
 					match,
 					bindings = e.attr("data-bind"),
-					re = /(^|,)\s*((\w+):)?\s*(\!|\#|\?)?('([^']*)'|([^,\|]+(?:\|[^,\|]+)*))/g;
+					re = /(^|,)\s*((\w+):)?\s*(\!|\#|\?\!?)?('([^']*)'|([^,\|]+(?:\|[^,\|]+)*))/g;
 
 				// Remove binding directives from element
 				e.attr("data-bind", null);
@@ -28,8 +28,8 @@
 					// Bind value to target
 					if(match[3]) {                // ATTRIBUTE ':' MEMBER - binds attributes
 						e.attr(match[3], value)
-					} else if(match[4] === "?") { // '?' MEMBER - include element depending on truthyness of value
-						if(value) {
+					} else if(match[4] === "?" || match[4] === "?!") { // '?' | '?!' - include / exclude element depending on truthyness of value
+						if(match[4].length==1 != !!value) {
 							e.remove();
 							break;
 						}
